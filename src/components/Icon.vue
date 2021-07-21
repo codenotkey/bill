@@ -1,0 +1,32 @@
+<template>
+  <svg class="icon">
+    <use :xlink:href="'#'+name"/>
+  </svg>
+</template>
+
+<script lang='ts'>
+
+// requires and returns all modules that match
+// __WebpackModuleApi.RequireContext ts中的类型声明，不是ts就不用
+const requireAll = (requireContext: __WebpackModuleApi.RequireContext) => requireContext.keys().map(requireContext)
+
+// import all svg
+try {
+  requireAll(require.context('../assets/icons', true, /\.svg$/))
+} catch (error) {
+  console.log(error)
+}
+export default {
+  props: ['name'],
+  name: 'Icon'
+}
+</script>
+
+<style scoped>
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+</style>

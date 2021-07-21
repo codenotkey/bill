@@ -1,0 +1,13 @@
+@font-face {
+    font-family:'FZYH';
+    src: url("fzyh.ttf");
+}
+@font-face {
+    font-family:'FZYH-509R';
+    src: url("方正悠黑_509R.ttf");
+    /*font-weight: normal;*/
+}
+@font-face {
+    font-family:'FZYH-510M';
+    src: url("方正悠黑_510M.ttf");
+}

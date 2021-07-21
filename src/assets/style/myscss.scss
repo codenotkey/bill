@@ -1,0 +1,20 @@
+$brandColor:#3247d3;
+$assistColor1:#5378c6;
+$assistColor2:#f59400;
+$income:#cd3b42;
+$outlayColor:#50a582;
+$textColor1:#96a0a2;
+$textColor2: #b2c5c9;
+
+$border-radius20:20px;
+
+%cardStyle{
+  padding: 20px;
+  margin-bottom: 8px;
+  border-radius: 20px;
+  background: #ffffff;
+}
+
+%buttonStyle{
+  border-radius: 30px;
+}
