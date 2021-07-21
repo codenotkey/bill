@@ -15,6 +15,7 @@ Vue.component('ContentTemplate', ContentTemplate)
 Vue.component('NavTab', NavTab)
 Vue.component('Icon', Icon)
 
+// @ts-ignore
 new Vue({
   router,
   store,

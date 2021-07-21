@@ -75,7 +75,7 @@ export default class TallyBlock extends Vue {
 
   }
   clear(){
-    this.output = []
+    this.output = ''
   }
   submitData(){
     console.log(this.output)

@@ -4,68 +4,28 @@
       <div class="resentCard">
         <div class="useType">
           <span>最近使用</span>
-          <span>展开▼</span>
+          <span @click="show">展开<icon name="展开" ></icon></span>
         </div>
-        <ul class="typeIcon">
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
-          </li>
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
-          </li>
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
-          </li>
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
-          </li>
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
-          </li>
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
+        <ul class="typeIcon" >
+          <li v-for="(item, i) in typeList" :key="i" @click="selectType(item)">
+            <icon :name=item></icon>
+            {{item}}
           </li>
         </ul>
-        <ul class="typeIcon">
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
-          </li>
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
-          </li>
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
-          </li>
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
-          </li>
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
-          </li>
-          <li>
-            <img src="@/assets/image/餐饮.png">
-            餐饮
+        <ul class="typeIcon" v-show=showMore>
+          <li v-for="(item, i) in typeList2" :key="i" @click="selectType(item)">
+            <icon :name=item></icon>
+            {{item}}
           </li>
         </ul>
       </div>
       <div class="timeCard">
         <span>时间</span>
-        <input type="text" placeholder="星期天 21/3/4 上午11:20">
+        <input type="text" v-bind:="info.date" placeholder="星期天 21/3/4 上午11:20">
       </div>
       <div class="remarkCard">
         <span>备注</span>
-        <input type="text" placeholder="填写备注信息">
+        <input type="text" placeholder="填写备注信息" v-bind:="info.type">
       </div>
       <div class="optionBtn">
         <button>
@@ -84,15 +44,27 @@ import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
-export default class Types extends Vue {
-  @Prop() readonly value!: string;
-
-  selectType(type: string) {
-    if (type !== '-' && type !== '+') {
-      throw new Error('type is unknown');
-    }
-    this.$emit('update:value', type);
+export default class InfoBlock extends Vue {
+  typeList = ['餐饮','饮料','服饰','交通','医药','红包']
+  typeList2 = ['购物','基金','电影','水果','房租','教育']
+  info = {
+    type:'',
+    note:'',
+    date:''
   }
+  @Prop() readonly value!: string;
+  showMore = false
+  selectType(item:string) {
+    this.info.type = item
+    console.log(item);
+  }
+  show(){
+    this.showMore =! this.showMore
+  }
+  // @Watch('info')
+  // onInfoChanged(info:object){
+  //   this.$emit('getInfo', info)
+  // }
 }
 </script>
 
@@ -118,15 +90,29 @@ export default class Types extends Vue {
       font-size: 15px;
       color: $brandColor;
     }
+    .icon{
+      padding-top: 2px;
+      color: #d6d9df;
+    }
   }
   .typeIcon{
     font-family: inherit;
     display: flex;
     justify-content: space-between;
+    margin: 6px 0;
     li{
+      font-family: FZYH,serif;
+      white-space: nowrap;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
       color: $textColor1;
+      font-size: 16px;
+      .icon{
+        width: 1.6em;
+        height: 1.6em;
+      }
     }
     img{
       width: 28px;

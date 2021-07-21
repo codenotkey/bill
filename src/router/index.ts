@@ -3,8 +3,11 @@ import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
 // @ts-ignore
 import Money from '@/views/Money.vue'
+// @ts-ignore
 import Statistics from '@/views/Statistics'
+// @ts-ignore
 import Labels from '@/views/Labels'
+// @ts-ignore
 import Notfound from '@/views/Notfound'
 
 Vue.use(VueRouter)

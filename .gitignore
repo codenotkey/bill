@@ -2,6 +2,7 @@
 node_modules
 /dist
 开发问题.md
+压缩.zip
 
 # local env files
 .env.local
