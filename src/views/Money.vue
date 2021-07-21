@@ -1,7 +1,7 @@
 <template>
     <ContentTemplate >
       <TallyBlock></TallyBlock>
-      <InfoBlock></InfoBlock>
+<!--      <InfoBlock></InfoBlock>-->
     </ContentTemplate>
 </template>
 

@@ -23,9 +23,6 @@
 </template>
 
 <script lang="ts">
-// import x from '@/assets/icons/person.svg'
-
-// console.log(x)
 
 export default {
   name: 'NavTab'

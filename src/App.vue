@@ -36,8 +36,8 @@ a{
 #app {
   height: 100vh;
   font-size: 16px;
-  //font-family: FZYH-509R,serif;
-  font-family: 'FZYH-510M', serif;
+  font-family: FZYH-509R,serif;
+  //font-family: 'FZYH-510M', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
