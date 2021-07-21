@@ -7,7 +7,7 @@
         <li>其他</li>
       </ul>
       <div>
-        <input type="number" placeholder="0.00">
+        <input type="text" placeholder="0.00" :value=output>
       </div>
       <div class="outType">
         <img src="@/assets/image/微信支付.png">
@@ -23,33 +23,66 @@
         </ul>
         <div class="furl"><Icon name="向下"></Icon></div>
       </div>
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button>x</button>
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button>+</button>
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>-</button>
-      <button>.</button>
-      <button>0</button>
-      <button>C</button>
-      <button>确定</button>
+      <button @click="inputNum">7</button>
+      <button @click="inputNum">8</button>
+      <button @click="inputNum">9</button>
+      <button @click="deleteNum" class="operateNum"><icon name="删除"></icon> </button>
+      <button @click="inputNum">4</button>
+      <button @click="inputNum">5</button>
+      <button @click="inputNum">6</button>
+      <button class="operateNum">+</button>
+      <button @click="inputNum">1</button>
+      <button @click="inputNum">2</button>
+      <button @click="inputNum">3</button>
+      <button class="operateNum">-</button>
+      <button @click="inputNum">.</button>
+      <button @click="inputNum">0</button>
+      <button @click="clear" class="operateNum">C</button>
+      <button @click="submitData" class="submit">确定</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-// import Component from "vue-class-component";
-//
-// @Component
-//   export default  class TallyBlock extends Vue{
-//
-// }
+import Vue from 'vue';
+import {Component, Prop} from 'vue-property-decorator';
+
+@Component
+export default class TallyBlock extends Vue {
+  output = ''
+  inputNum(event:MouseEvent){
+    const button = (event.target as HTMLButtonElement);
+    const input = button.textContent!;
+    if (this.output.length === 16) { return; }
+    if (this.output === '0') {
+      if ('0123456789'.indexOf(input) >= 0) {
+        this.output = input;
+      } else {
+        this.output += input;
+      }
+      return;
+    }
+    if (this.output.indexOf('.') >= 0 && input === '.') {return;}
+    this.output += input;
+  }
+  deleteNum(){
+    console.log('cc');
+    if (this.output.length ===1){
+      this.output = ''
+    }else{
+      this.output = this.output.slice(0,-1)
+    }
+
+  }
+  clear(){
+    this.output = []
+  }
+  submitData(){
+    console.log(this.output)
+    this.$emit('billData',this.output)
+    this.output=''
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -96,7 +129,7 @@ input{
   height: 40px;
   width: 100vw;
   background: transparent;
-  color: #84c0a8;
+  color: #ffffff;
   &::-webkit-input-placeholder { /* WebKit browsers */
    color: #84c0a8;
    font-family: 'FZYH-510M', serif;
@@ -162,6 +195,13 @@ input{
     font-size: 24px;
     padding: 10px 10px;
     margin: 4px;
+  }
+  .submit{
+    background: $brandColor;
+    color: white;
+  }
+  .operateNum{
+    background: #d6d9df;
   }
 }
 </style>

@@ -1,16 +1,23 @@
 <template>
     <ContentTemplate >
-      <TallyBlock></TallyBlock>
+      <TallyBlock @billData="getBillData"></TallyBlock>
 <!--      <InfoBlock></InfoBlock>-->
     </ContentTemplate>
 </template>
 
-<script>
+<script lang="ts">
 import TallyBlock from '@/components/Money/TallyBlock'
 import InfoBlock from '@/components/Money/InfoBlock'
-export default {
-  name: 'Money',
-  components: { InfoBlock, TallyBlock }
+import Component from "vue-class-component"
+import Vue from "vue";
+
+@Component({
+  components:{TallyBlock,InfoBlock}
+})
+export default class Money extends Vue{
+  getBillData(value:string){
+    console.log(value);
+  }
 }
 </script>
 
