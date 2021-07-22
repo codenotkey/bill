@@ -38,14 +38,14 @@
       <button @click="inputNum">.</button>
       <button @click="inputNum">0</button>
       <button @click="clear" class="operateNum">C</button>
-      <button @click="submitData" class="submit">确定</button>
+      <button @click="showKey" class="submit">确定</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class TallyBlock extends Vue {
@@ -83,6 +83,10 @@ export default class TallyBlock extends Vue {
     console.log(this.output)
     this.$emit('billData',this.output)
     // this.output=''
+  }
+  @Watch('output')
+  onValueChanged(value:string){
+    this.$emit('update:value', value);
   }
   showKey(){
     this.show = ! this.show

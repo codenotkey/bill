@@ -21,14 +21,14 @@
       </div>
       <div class="timeCard">
         <span>时间</span>
-        <input type="text"  placeholder="星期天 21/3/4 上午11:20">
+        <input type="text"  placeholder="星期天 21/3/4 上午11:20" v-model="info.date">
       </div>
       <div class="remarkCard">
         <span>备注</span>
-        <input type="text" placeholder="填写备注信息" :value=info.note>
+        <input type="text" placeholder="填写备注信息" v-model="info.note">
       </div>
       <div class="optionBtn">
-        <button>
+        <button @click="sendInfo">
           保存
         </button>
         <button>
@@ -52,6 +52,7 @@ export default class InfoBlock extends Vue {
     note:'',
     date:''
   }
+
   @Prop() readonly value!: string;
   showMore = false
   selectType(item:string) {
@@ -61,10 +62,13 @@ export default class InfoBlock extends Vue {
   show(){
     this.showMore =! this.showMore
   }
+  sendInfo(){
+    this.$emit('submit', this.info)
+    // console.log(this.info)
+  }
   @Watch('info')
-  onInfoChanged(info:object){
-    // this.$emit('getInfo', info)
-    console.log(this.info.type)
+  onValueChanged(value:object){
+    this.$emit('update:value', value);
   }
 }
 </script>
