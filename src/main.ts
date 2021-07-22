@@ -7,7 +7,7 @@ import store from './store'
 // @ts-ignore
 import ContentTemplate from '@/components/ContentTemplate'
 // @ts-ignore
-import NavTab from '@/components/NavTab'
+import NavTab from "@/components/NavTab"
 import Icon from '@/components/Icon.vue'
 
 Vue.config.productionTip = false

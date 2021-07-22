@@ -7,21 +7,21 @@
         <li>其他</li>
       </ul>
       <div>
-        <input type="text" placeholder="0.00" :value=output>
+        <input type="text" readonly  placeholder="0.00" :value=output @click="showKey">
       </div>
       <div class="outType">
         <img src="@/assets/image/微信支付.png">
         支付方式
       </div>
     </div>
-    <div class="numKey">
+    <div class="numKey" v-show=show>
       <div class="tool">
         <ul>
           <li>支出</li>
           <li>收入</li>
           <li>其他</li>
         </ul>
-        <div class="furl"><Icon name="向下"></Icon></div>
+        <div class="furl" @click="showKey"><Icon name="向下"></Icon></div>
       </div>
       <button @click="inputNum">7</button>
       <button @click="inputNum">8</button>
@@ -49,7 +49,9 @@ import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class TallyBlock extends Vue {
-  output = ''
+  @Prop() readonly value!: string
+  output = this.value
+  show = false
   inputNum(event:MouseEvent){
     const button = (event.target as HTMLButtonElement);
     const input = button.textContent!;
@@ -66,7 +68,7 @@ export default class TallyBlock extends Vue {
     this.output += input;
   }
   deleteNum(){
-    console.log('cc');
+    console.log(this.output);
     if (this.output.length ===1){
       this.output = ''
     }else{
@@ -80,7 +82,10 @@ export default class TallyBlock extends Vue {
   submitData(){
     console.log(this.output)
     this.$emit('billData',this.output)
-    this.output=''
+    // this.output=''
+  }
+  showKey(){
+    this.show = ! this.show
   }
 }
 </script>
@@ -149,6 +154,7 @@ input{
   }
 }
 .numKey{
+  z-index: 100;
   position: absolute;
   bottom: 0;
   left: 0;

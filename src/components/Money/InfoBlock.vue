@@ -21,11 +21,11 @@
       </div>
       <div class="timeCard">
         <span>时间</span>
-        <input type="text" v-bind:="info.date" placeholder="星期天 21/3/4 上午11:20">
+        <input type="text"  placeholder="星期天 21/3/4 上午11:20">
       </div>
       <div class="remarkCard">
         <span>备注</span>
-        <input type="text" placeholder="填写备注信息" v-bind:="info.type">
+        <input type="text" placeholder="填写备注信息" :value=info.note>
       </div>
       <div class="optionBtn">
         <button>
@@ -61,10 +61,11 @@ export default class InfoBlock extends Vue {
   show(){
     this.showMore =! this.showMore
   }
-  // @Watch('info')
-  // onInfoChanged(info:object){
-  //   this.$emit('getInfo', info)
-  // }
+  @Watch('info')
+  onInfoChanged(info:object){
+    // this.$emit('getInfo', info)
+    console.log(this.info.type)
+  }
 }
 </script>
 
@@ -73,7 +74,7 @@ export default class InfoBlock extends Vue {
 .infoCard{
   @extend%cardStyle;
   padding: 8px;
-  z-index: 10;
+  z-index: 0;
   margin-top: -30px;
   position: relative;
   background: #f9fafb;
