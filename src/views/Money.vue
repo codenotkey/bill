@@ -56,6 +56,6 @@ export default class Money extends Vue{
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/style/myscss.scss";
+@import "@/assets/style/myscss.scss";
 
 </style>

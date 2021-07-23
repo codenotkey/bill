@@ -9,6 +9,8 @@ import Statistics from '@/views/Statistics'
 import Labels from '@/views/Labels'
 // @ts-ignore
 import Notfound from '@/views/Notfound'
+// @ts-ignore
+import Test from '@/views/test'
 
 Vue.use(VueRouter)
 
@@ -28,6 +30,10 @@ const routes = [
   {
     path: '/statistics',
     component: Statistics
+  },
+  {
+    path:'/test',
+    component: Test
   },
   {
     path: '*',

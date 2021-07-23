@@ -2,9 +2,8 @@
   <div>
     <div class="outlay">
       <ul>
-        <li class="selected">支出</li>
-        <li>收入</li>
-        <li>其他</li>
+        <li v-for="(item,index) in typeList" :key="index"
+            :class="{'active':index ===checkIndex }" @click="toggle(index)">{{item}}</li>
       </ul>
       <div>
         <input type="text" readonly  placeholder="0.00" :value=output @click="showKey">
@@ -46,12 +45,20 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
-
-@Component
+import OptionAlter from "@/components/optionAlter.vue";
+@Component({
+  components: {OptionAlter}
+})
 export default class TallyBlock extends Vue {
   @Prop() readonly value!: string
   output = this.value
   show = false
+  typeList = ['支出','收入','其他']
+  checkIndex = 0
+  toggle (index:number) {
+    console.log(index);
+    this.checkIndex = index
+  }
   inputNum(event:MouseEvent){
     const button = (event.target as HTMLButtonElement);
     const input = button.textContent!;
@@ -100,11 +107,13 @@ export default class TallyBlock extends Vue {
   padding-top: 3vh;
   padding-left: 3vw;
   padding-bottom: 4vh;
+  //height: 31px;
   background: $outlayColor;
   border-radius:$border-radius20 $border-radius20 $border-radius20 $border-radius20;
   ul{
     display: flex;
     align-items: center;
+    height: 31px;
     li{
       font-family:'FZYH-509R',serif;
       padding: 0px 10px 8px 10px;
@@ -113,12 +122,13 @@ export default class TallyBlock extends Vue {
       display: flex;
       flex-direction: column;
       align-items: center;
-    &.selected{
+    &.active{
        font-family:'FZYH-510M',serif;
        font-size: 20px;
        color: #ffffff;
+       transition: 0.2s all ease-in-out;
      }
-    &.selected::after{
+    &.active::after{
        content: '';
        width: 14px;
        height: 1px;
@@ -126,6 +136,7 @@ export default class TallyBlock extends Vue {
        border-radius: 2px;
        position: absolute;
        bottom: 0;
+       transition: 0.1s all ease-in-out;
      }
     }
   }

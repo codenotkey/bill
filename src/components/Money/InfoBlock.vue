@@ -138,7 +138,6 @@ export default class InfoBlock extends Vue {
   }
 }
 .optionBtn{
-  //position: absolute;
   bottom: 0;
   margin-top: 30px;
   button:nth-child(1){
