@@ -12,7 +12,7 @@ import Component from "vue-class-component";
   components:{OptionAlter}
 })
 export default class Labels extends Vue {
-  tags:Array= ['支出','收入','其他']
+  tags:string[]= ['支出','收入','其他']
 }
 </script>
 

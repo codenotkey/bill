@@ -52,7 +52,7 @@ export default {
     }
     > .item.selected {
       fill: currentColor;
-      color: #3247d3;
+      color: #0000ff;
     }
     .addBill{
       background: $brandColor;

@@ -4,11 +4,11 @@
   </svg>
 </template>
 
-<script lang='ts'>
+<script lang='js'>
 
 // requires and returns all modules that match
 // __WebpackModuleApi.RequireContext ts中的类型声明，不是ts就不用
-const requireAll = (requireContext: __WebpackModuleApi.RequireContext) => requireContext.keys().map(requireContext)
+const requireAll = (requireContext) => requireContext.keys().map(requireContext)
 
 // import all svg
 try {

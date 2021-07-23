@@ -15,16 +15,11 @@ import {Component, Prop, Watch} from 'vue-property-decorator';
 @Component
 export default class optionAlter extends Vue {
   @Prop({required: true}) fieldName!: string;
-  @Prop({type: Array, required: true, default: () => []}) typeList: Array
-  @Prop({default:'inherit'}) fontColor:string
+  @Prop({type: Array, required: true, default: () => []}) typeList: string[] | undefined
+  @Prop({default:'inherit'}) fontColor: string | 'inherit' | undefined
   checkIndex = 0
-  activeColor: 'red'
-  styleObject = {
-    // color: this.fontColor,
-    // fontSize: '13px'
-  }
-  // cc:'red'
-  toggle(index) {
+
+  toggle(index:number) {
     this.checkIndex = index
   }
 }
