@@ -1,10 +1,11 @@
 <template>
   <div>
     <div class="outlay">
-      <ul>
-        <li v-for="(item,index) in typeList" :key="index"
-            :class="{'active':index ===checkIndex }" @click="toggle(index)">{{item}}</li>
-      </ul>
+<!--      <ul>-->
+<!--        <li v-for="(item,index) in typeList" :key="index"-->
+<!--            :class="{'active':index ===checkIndex }" @click="toggle(index)">{{item}}</li>-->
+<!--      </ul>-->
+      <optionAlter :typeList=typeList  fieldName="标签名" font-color="#fff"></optionAlter>
       <div>
         <input type="text" readonly  placeholder="0.00" :value=output @click="showKey">
       </div>
@@ -15,11 +16,7 @@
     </div>
     <div class="numKey" v-show=show>
       <div class="tool">
-        <ul>
-          <li>支出</li>
-          <li>收入</li>
-          <li>其他</li>
-        </ul>
+        <optionAlter :typeList=typeList  fieldName="标签名" font-color="#3247d3"></optionAlter>
         <div class="furl" @click="showKey"><Icon name="向下"></Icon></div>
       </div>
       <button @click="inputNum">7</button>

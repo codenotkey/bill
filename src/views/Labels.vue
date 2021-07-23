@@ -1,7 +1,6 @@
 <template>
     <div>
-      11
-      <option-alter :myType.sync="tags"></option-alter>
+      <optionAlter :typeList=tags  fieldName="标签名" font-color="#fff"></optionAlter>
     </div>
 </template>
 
