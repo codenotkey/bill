@@ -1,17 +1,180 @@
 <template>
-  <div>
-    <ContentTemplate>
-      statistics.vue
-    </ContentTemplate>
+  <div class="content" v-bind:style="{background:currentTheme.bgColor[currentThemeIndex]}" >
+    <div class="title">
+        <router-link to="/">
+          <icon name="返回" class="icon"></icon>
+        </router-link>
+      <h1>我的预算</h1>
+      <span>2021年7月10日-8月10日</span>
+      <span>今天：7月20日</span>
+    </div>
+    <div class="picData">
+      <div id="liquidfill-chart" style="width:100%; height:350px;background: transparent"></div>
+    </div>
+    <div class="budget">
+      <div>
+        <span>总预算</span>
+        8500.00
+      </div>
+      <span>&nbsp;</span>
+      <div>
+        <span>剩余预算</span>
+        6074.00
+      </div>
+    </div>
+    <button v-bind:style="{color:currentTheme.buttonColor[currentThemeIndex]}">更改我的预算</button>
   </div>
 </template>
 
 <script>
+let echarts = require('echarts')
+import "echarts-liquidfill";
+let a
+let per
 export default {
-  name: 'Statistics'
+  name: 'Statistics',
+  data(){
+    return{
+      charts: '',
+      currentThemeIndex:0,
+      currentTheme:{
+        buttonColor:['#65a7a2','#f3ae87','#ef7371'],
+        bgColor:['repeating-linear-gradient(#4ea28d,#72a9ac)','repeating-linear-gradient(#e9b586,#f4a275)','repeating-linear-gradient(#e88b84,#f47676)'],
+        chartData:[
+          [{value: per, itemStyle: {normal: {color: '#749fa3'}}},
+            {value: per-0.1, itemStyle: {normal: {color: '#72a9ad'}}},
+            {value: per-0.05, itemStyle: {normal: {color: '#5ba599'}}},
+            {value: per-0.05, itemStyle: {normal: {color: '#4ea28d'}}}],
+
+          [{value: per, itemStyle: {normal: {color: '#f5a276'}}},
+            {value: per-0.1, itemStyle: {normal: {color: '#e59c67'}}},
+            {value: per-0.5, itemStyle: {normal: {color: '#e4a876'}}},
+            {value: per-0.05, itemStyle: {normal: {color: '#e9b586'}}}],
+
+          [{value: per, itemStyle: {normal: {color: '#f47676'}}},
+            {value: per-0.1, itemStyle: {normal: {color: '#e88b84'}}}],
+        ],
+      }
+    }
+  },
+  beforeCreate() {
+    function balance(allMoney,remainMoney){
+      return Math.floor((remainMoney/allMoney) * 100) / 100;
+    }
+    function alterTheme(value){
+      if(value>0.5){
+        a = 0
+      }
+      else if(0.2<value && 0.5>value){
+        a=1
+      }
+      else{
+        a = 2
+      }
+      return a
+    }
+   per = balance(8500,8000)
+    alterTheme(per)
+  },
+  mounted(){
+    this.currentThemeIndex = a  //在vue的外部声明a,在beforeCreate阶段处理数值，然后在mounted把a的值传递到需要在mounted就调用的值
+    this.myDraw('liquidfill-chart')
+  },
+  methods: {
+    myDraw(id) {
+      this.charts = echarts.init(document.getElementById('liquidfill-chart'),{},{renderer: 'svg'})
+      let option = {
+        series: [{
+          type: 'liquidFill',
+          data: this.currentTheme.chartData[this.currentThemeIndex],
+          outline: {
+            show: false
+          },
+          label: {
+            normal: {
+              textStyle: {
+                fontFamily: 'FZYH,sans-serif',
+                color: '#ffffff',
+                insideColor: '#fff',
+                fontSize: 50
+              }
+            }
+          }
+        }],
+      };
+      this.charts.setOption(option);
+    }
+  }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "src/assets/style/myscss";
+h1{
+  font-weight: normal;
+}
+.content{
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  padding:20px;
+  flex-direction: column;
+  //background: repeating-linear-gradient(#4ea28d,#72a9ac);
+  //background: repeating-linear-gradient(#e9b586,#f4a275);
+  background: repeating-linear-gradient(#e88b84,#f47676);
+  .title{
+    align-self: flex-start;
+    color: white;
+    font-weight: lighter;
+    h1{
+      padding-bottom: 0.2em;
+    }
+    span{
+      color: #ece3e3;
+      display: block;
+      margin-bottom: 6px;
+    }
+    a{
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  .picData{
+    align-self: center;
+    width: 400px;
+    height: 400px;
 
+  }
+  .budget{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    &>div{
+      font-size: 1.7rem;
+      color: white;
+    }
+    &>span{
+      display: inline-block;
+      border: 2px solid white;
+      height: 5px;
+      width: 1px;
+      opacity: 60%;
+    }
+    &>div>span{
+      display: block;
+      color: white;
+      opacity: 60%;
+      font-size: 1rem;
+    }
+  }
+  button{
+    @extend %cardStyle;
+    font-size: 1.5rem;
+    //color:#65a7a2;
+    //color:#f3ae87;#65a7a2;#ef7371;
+    color:#ef7371;
+    margin-top:7vh ;
+
+  }
+}
 </style>

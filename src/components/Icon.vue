@@ -7,7 +7,7 @@
 <script lang='js'>
 
 // requires and returns all modules that match
-// __WebpackModuleApi.RequireContext ts中的类型声明，不是ts就不用
+// :__WebpackModuleApi.RequireContext ts中的类型声明，不是ts就不用
 const requireAll = (requireContext) => requireContext.keys().map(requireContext)
 
 // import all svg
@@ -28,5 +28,6 @@ export default {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+  position: relative;
 }
 </style>
