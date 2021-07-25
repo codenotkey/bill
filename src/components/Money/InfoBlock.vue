@@ -7,7 +7,7 @@
           <span @click="show">展开<icon name="展开" ></icon></span>
         </div>
         <ul class="typeIcon" >
-          <li v-for="(item, i) in typeList" :key="i" @click="selectType(item)">
+          <li v-for="(item, i) in typeList" :key="i" @click="selectType(item)" >
             <icon :name=item></icon>
             {{item}}
           </li>
@@ -52,11 +52,12 @@ export default class InfoBlock extends Vue {
     note:'',
     date:''
   }
-
+  selected:false
   @Prop() readonly value!: string;
   showMore = false
   selectType(item:string) {
     this.info.type = item
+    this.selected=!this.selected
     console.log(item);
   }
   show(){
@@ -112,6 +113,7 @@ export default class InfoBlock extends Vue {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      fill: currentColor;
       color: $textColor1;
       font-size: 16px;
       .icon{
