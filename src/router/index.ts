@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '../views/Home.vue'
+import Home from '../views/Home.vue'
 // @ts-ignore
 import Money from '@/views/Money.vue'
 // @ts-ignore
@@ -17,7 +17,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/money'
+    component: Home
   },
   {
     path: '/money',
