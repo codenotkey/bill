@@ -46,7 +46,6 @@ ul {
       color: #ffffff;
       transition: 0.2s all ease-in-out;
     }
-
     &.active::after {
       content: '';
       width: 14px;

@@ -1,8 +1,7 @@
 <template>
     <ContentTemplate >
-      <TallyBlock :value.sync="record.amount"  @billData="getBillData" @update:value="getBillData"></TallyBlock>
-      <InfoBlock @update:value="getInfoData" @submit="getInfoData" ></InfoBlock>
-<!--      <InfoBlock @submit="getInfoData"></InfoBlock>-->
+      <TallyBlock :value.sync="record.amount"   @update:value="getBillData"></TallyBlock>
+      <InfoBlock @update:value="submitSpendingData" @submit="submitSpendingData" ></InfoBlock>
     </ContentTemplate>
 </template>
 
@@ -17,40 +16,46 @@ import { Watch } from 'vue-property-decorator';
 
 const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
 
-type Record = {
-  type: string
-  notes: string
-  // type: string
-  amount: string // 数据类型 object | string
-  createdAt?: Date  // 类 / 构造函数
-}
 
 @Component({
   components:{TallyBlock,InfoBlock}
 })
 export default class Money extends Vue{
-  record: Record = {
+  record: RecordItem ={
+    spendOrIncome:'',
     type: '',
     notes: '',
-    amount: '',
-    createdAt:undefined
+    amount: '', // 数据类型 object | string
+    createdAt: '',  // 类 / 构造函数
   }
-  recordList: Record[] = recordList
+  get recordList() {
+    return this.$store.commit('fetchRecords')
+  }
   @Watch('record')
   onRecordListChange() {
 
   }
   getBillData(value:string){
-    // this.record.amount = value
-    // console.log(this.record.amount);
+
   }
-  getInfoData(value: object){
+  submitSpendingData(value: object){
     this.record.type = value.type
     this.record.notes = value.note
-    this.record.createdAt = new Date()
-    const record2: Record = JSON.parse(JSON.stringify(this.record))
-    this.recordList.push(record2)
-    window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+    this.record.createdAt = value.date
+    this.record.spendOrIncome = 'spend'
+    if(this.record.amount === ''){
+      window.alert('今天用了多少钱？')
+    }
+    else if(this.record.amount !== ''){
+      const record2: Record = JSON.parse(JSON.stringify(this.record))
+      this.$store.commit('createRecord',record2)
+
+      window.alert('成功记账💧')
+      // location.reload();
+      // console.log(record2);
+
+
+    }
   }
 }
 </script>

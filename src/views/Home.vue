@@ -22,98 +22,89 @@
         </div>
       </div>
     </div>
-    <div class="day">
+    <div class="day" v-for="(group,index) in groupList" :key="index">
       <div class="dayTitle">
         <div class="today">
-          <h3>今天</h3>
-          <span>5月10日</span>
+          <h3>{{ beautify(group.title) }}</h3>
+          <span>{{ group.title }}</span>
         </div>
         <div class="dayData">
-          <span>支：1312.00</span>
-          <span>收：312.00</span>
+          <span>支：{{ group.total }}</span>
+          <span>收：0</span>
         </div>
       </div>
       <ul class="dayList">
-        <li class="listContent">
+        <li class="listContent" v-for="(item,index) in group.items" :key="index">
           <div class="listTitle">
-            <icon name="交通"></icon>
-            交通
+            <icon :name="item.type"></icon>
+            <div>
+              <span>{{ item.type }}</span>
+              <span>{{ itemDate(item.createdAt)}}{{item.notes}}</span>
+            </div>
           </div>
-          <span>53.20</span>
-        </li>
-        <li class="listContent">
-          <div class="listTitle">
-            <icon name="基金"></icon>
-            基金
-          </div>
-          <span>53.20</span>
-        </li>
-        <li class="listContent">
-          <div class="listTitle">
-            <icon name="电影"></icon>
-            电影
-          </div>
-          <span>53.20</span>
-        </li>
-        <li class="listContent">
-          <div class="listTitle">
-            <icon name="红包"></icon>
-            红包
-          </div>
-          <span>53.20</span>
-        </li>
-      </ul>
-    </div>
-    <div class="day">
-      <div class="dayTitle">
-        <div class="today">
-          <h3>今天</h3>
-          <span>5月10日</span>
-        </div>
-        <div class="dayData">
-          <span>支：1312.00</span>
-          <span>收：312.00</span>
-        </div>
-      </div>
-      <ul class="dayList">
-        <li class="listContent">
-          <div class="listTitle">
-            <icon name="交通"></icon>
-            交通
-          </div>
-          <span>53.20</span>
-        </li>
-        <li class="listContent">
-          <div class="listTitle">
-            <icon name="基金"></icon>
-            基金
-          </div>
-          <span>53.20</span>
-        </li>
-        <li class="listContent">
-          <div class="listTitle">
-            <icon name="电影"></icon>
-            电影
-          </div>
-          <span>53.20</span>
-        </li>
-        <li class="listContent">
-          <div class="listTitle">
-            <icon name="红包"></icon>
-            红包
-          </div>
-          <span>53.20</span>
+          <span>{{ item.amount }}</span>
         </li>
       </ul>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from "vue";
+import Component from "vue-class-component";
+import clone from "@/lib/clone";
+import dayjs from "dayjs";
 
+@Component
 export default class Money extends Vue {
-
+    get groupList(){
+      let newList = clone(this.recordList).sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
+      type Result = { title: string, total?: number, items: RecordItem[] }[]
+      const result: Result = [{title: dayjs(newList[0].createdAt).format('MM-DD'), items: [newList[0]]}];
+      console.log(newList);
+      for(let i = 1 ; i<newList.length; i++){
+        const temp = newList[i]
+        const last = result[result.length-1]
+        if(dayjs(last.title).isSame(dayjs(temp.createdAt).format('MM-DD'),'day')){
+          console.log('进入SAME');
+          last.items.push(temp)
+        }else{
+          result.push({title: dayjs(temp.createdAt).format('MM-DD'), items: [temp]})
+        }
+      }
+      console.log(result);
+      result.map(group =>{
+        group.total = group.items.reduce((sum, item) => {
+          console.log(sum);
+          console.log(item);
+          return sum + parseFloat(item.amount);
+        }, 0);
+      })
+      return result
+    }
+    get recordList(){
+      return this.$store.state.recordList
+    }
+    itemDate(string:string){
+      return dayjs(string).format('HH:mm')
+    }
+    beautify(string:string){
+      const now = dayjs().format('MM-DD')
+      console.log('day is '+ string);
+      console.log('now is' + now);
+      if(string === now) {
+        return '今天'
+      }
+      else{
+        return
+      }
+    }
+    beforeCreate(){
+      this.$store.commit('fetchRecords')
+    }
+    mounted(){
+      this.groupList
+    }
 }
 
 </script>
@@ -125,7 +116,6 @@ export default class Money extends Vue {
   display: flex;
   flex-direction: column;
   padding: 5px;
-  border: 1px solid red;
   .expense{
     margin: 10px;
     color: $textColor1;
@@ -215,6 +205,7 @@ export default class Money extends Vue {
       .listContent{
         display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 5px 0;
         margin-bottom: 5px;
         position: relative;
@@ -240,12 +231,21 @@ export default class Money extends Vue {
           flex-direction: row;
           align-items: center;
           text-align: center;
-          font-size: 0.9rem;
+          font-size: 1rem;
           .icon{
-            height: 22px;
-            width: 22px;
+            height: 26px;
+            width: 26px;
             margin-right: 6px;
             color: $brandColor;
+          }
+          >div{
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            span:nth-child(2){
+              font-size: 0.8rem;
+              color: $textColor1;
+            }
           }
         }
       }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 // <script src="http://echarts.baidu.com/resource/echarts-liquidfill-1.0.4/dist/echarts-liquidfill.js" type="text/javascript" charset="utf-8"></script>
 
+// @ts-ignore
 import App from './App.vue'
 // @ts-ignore
 import router from './router'

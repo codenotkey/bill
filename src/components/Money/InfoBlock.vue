@@ -4,16 +4,10 @@
       <div class="resentCard">
         <div class="useType">
           <span>最近使用</span>
-          <span @click="show">展开<icon name="展开" ></icon></span>
+          <span @click="show" >{{ initType.typeText }}<icon name="展开" :style="{transform:'rotate('+initType.typeDeg+')'}" ></icon></span>
         </div>
-        <ul class="typeIcon" >
-          <li v-for="(item, i) in typeList" :key="i" @click="selectType(item)" >
-            <icon :name=item></icon>
-            {{item}}
-          </li>
-        </ul>
-        <ul class="typeIcon" v-show=showMore>
-          <li v-for="(item, i) in typeList2" :key="i" @click="selectType(item)">
+        <ul class="typeIcon" :style="{height:initType.resentCardHeight}">
+          <li v-for="(item, i) in typeList" :key="i" @click="selectType(item) , toggle(i)" :class="{'active':i===initType.typeIndex}">
             <icon :name=item></icon>
             {{item}}
           </li>
@@ -21,11 +15,11 @@
       </div>
       <div class="timeCard">
         <span>时间</span>
-        <input type="text"  placeholder="星期天 21/3/4 上午11:20" v-model="info.date">
+        <input type="datetime-local"  placeholder="星期天 21/3/4 上午11:20" v-model="info.date">
       </div>
       <div class="remarkCard">
         <span>备注</span>
-        <input type="text" placeholder="填写备注信息" v-model="info.note">
+        <input type="text" placeholder="填写备注信息" v-model="info.note" required>
       </div>
       <div class="optionBtn">
         <button @click="sendInfo">
@@ -45,27 +39,59 @@ import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class InfoBlock extends Vue {
-  typeList = ['餐饮','饮料','服饰','交通','医药','红包']
-  typeList2 = ['购物','基金','电影','水果','房租','教育']
+  typeList = ['餐饮','饮料','服饰','交通','医药','红包','购物','基金','电影','水果','房租','教育']
   info = {
     type:'',
     note:'',
     date:''
   }
-  selected:false
+  selected:boolean=false
+  initType = {
+    resentCardHeight :'57px',
+    typeIndex: -1,
+    typeText:'展开',
+    typeDeg :'0deg',
+  }
+
   @Prop() readonly value!: string;
   showMore = false
+
+  toggle(index:number) {
+    this.initType.typeIndex = index
+  }
   selectType(item:string) {
     this.info.type = item
     this.selected=!this.selected
     console.log(item);
   }
   show(){
-    this.showMore =! this.showMore
+    if(this.initType.resentCardHeight ==='57px'){
+      this.initType.typeText = '收起'
+      this.initType.resentCardHeight = '114px'
+      this.initType.typeDeg = '180deg'
+    }else{
+      this.initType.resentCardHeight ='57px'
+      this.initType.typeText = '展开'
+      this.initType.typeDeg = '0deg'
+    }
   }
   sendInfo(){
-    this.$emit('submit', this.info)
-    // console.log(this.info)
+    if(this.info.date === '' && this.info.type ===''){
+      window.alert('时间和类型没有选择！😶')
+    }
+    else if(this.info.date === ''){
+      window.alert('希望你没有忘记时间！ 🤨')
+    }else if(this.info.type === ''){
+      window.alert('这笔钱花哪了？ 🤑')
+    }
+    else{
+      this.$emit('submit', this.info)
+      // this.info.date = ''
+      // this.info.type = ''
+      // this.info.note = ''
+      this.initType.typeIndex = -1
+    }
+
   }
   @Watch('info')
   onValueChanged(value:object){
@@ -99,16 +125,23 @@ export default class InfoBlock extends Vue {
     .icon{
       padding-top: 2px;
       color: #d6d9df;
+      transition: all .3s ease-in-out;
     }
   }
   .typeIcon{
     font-family: inherit;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     margin: 6px 0;
+    //width: 360px;
+    height: 57px;
+    overflow: hidden;
+    transition: all .3s ease-in-out;
     li{
       font-family: FZYH,serif;
       white-space: nowrap;
+      margin: 7px 12px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -119,6 +152,9 @@ export default class InfoBlock extends Vue {
       .icon{
         width: 1.6em;
         height: 1.6em;
+      }
+      &.active{
+        color: $brandColor;
       }
     }
     img{
@@ -142,6 +178,7 @@ export default class InfoBlock extends Vue {
 .optionBtn{
   bottom: 0;
   margin-top: 30px;
+  white-space: nowrap;
   button:nth-child(1){
     background: #50a582;
     color: white;

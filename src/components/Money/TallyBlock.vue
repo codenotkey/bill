@@ -1,13 +1,9 @@
 <template>
   <div>
     <div class="outlay">
-<!--      <ul>-->
-<!--        <li v-for="(item,index) in typeList" :key="index"-->
-<!--            :class="{'active':index ===checkIndex }" @click="toggle(index)">{{item}}</li>-->
-<!--      </ul>-->
       <optionAlter :typeList=typeList  fieldName="标签名" font-color="#fff"></optionAlter>
       <div>
-        <input type="text" readonly  placeholder="0.00" :value=output @click="showKey">
+        <input type="text" placeholder="0.00" :value=output  readonly @click="showKey" >
       </div>
       <div class="outType">
         <img src="@/assets/image/微信支付.png">
@@ -83,11 +79,11 @@ export default class TallyBlock extends Vue {
   clear(){
     this.output = ''
   }
-  submitData(){
-    console.log(this.output)
-    this.$emit('billData',this.output)
-    // this.output=''
-  }
+  // submitData(){
+  //   console.log(this.output)
+  //   this.$emit('billData',this.output)
+  //   // this.output=''
+  // }
   @Watch('output')
   onValueChanged(value:string){
     this.$emit('update:value', value);
@@ -144,7 +140,7 @@ input{
   margin-left: 10px;
   border: none;
   height: 40px;
-  width: 100vw;
+  width: 90vw;
   background: transparent;
   color: #ffffff;
   &::-webkit-input-placeholder { /* WebKit browsers */
