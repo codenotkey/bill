@@ -9,7 +9,7 @@
         <icon name="速度"></icon>
       </div>
       <div class="bugDataContent">
-        <span>我的预算</span>
+        <router-link to="labels">我的预算</router-link>
         <div class="bugData">
           <div>
             <h5>本月预算</h5>
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="day" v-for="(group,index) in groupList" :key="index">
+    <div class="day"  v-for="(group,index) in groupList" :key="index">
       <div class="dayTitle">
         <div class="today">
           <h3>{{ beautify(group.title) }}</h3>
@@ -66,7 +66,6 @@ export default class Money extends Vue {
         const temp = newList[i]
         const last = result[result.length-1]
         if(dayjs(last.title).isSame(dayjs(temp.createdAt).format('MM-DD'),'day')){
-          console.log('进入SAME');
           last.items.push(temp)
         }else{
           result.push({title: dayjs(temp.createdAt).format('MM-DD'), items: [temp]})
@@ -75,8 +74,6 @@ export default class Money extends Vue {
       console.log(result);
       result.map(group =>{
         group.total = group.items.reduce((sum, item) => {
-          console.log(sum);
-          console.log(item);
           return sum + parseFloat(item.amount);
         }, 0);
       })

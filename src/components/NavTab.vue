@@ -8,7 +8,7 @@
         <Icon name="统计"/>
       </router-link>
 
-      <router-link to="/statistics" class="item"  active-class="selected">
+      <router-link to="/money" class="item"  active-class="selected">
         <button class="addBill">+</button>
       </router-link>
 
