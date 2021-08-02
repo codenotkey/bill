@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 // @ts-ignore
 import Money from '@/views/Money.vue'
 // @ts-ignore
-import Statistics from '@/views/Statistics'
+import Budget from '@/views/Budget.vue'
 // @ts-ignore
 import Labels from '@/views/Labels'
 // @ts-ignore
@@ -28,8 +28,8 @@ const routes = [
     component: Labels
   },
   {
-    path: '/statistics',
-    component: Statistics
+    path: '/budget',
+    component: Budget
   },
   {
     path:'/test',

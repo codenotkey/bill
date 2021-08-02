@@ -9,7 +9,7 @@
         <icon name="速度"></icon>
       </div>
       <div class="bugDataContent">
-        <router-link to="labels">我的预算</router-link>
+        <router-link to="labels">我的预算></router-link>
         <div class="bugData">
           <div>
             <h5>本月预算</h5>

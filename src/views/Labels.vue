@@ -9,7 +9,7 @@
 import OptionAlter from "@/components/optionAlter.vue";
 import Vue from "vue";
 import Component from "vue-class-component";
-import Statistics from "@/views/Statistics.vue";
+import Statistics from "@/views/Budget.vue";
 @Component({
   components:{Statistics, OptionAlter,}
 })

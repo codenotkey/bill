@@ -13,6 +13,14 @@ import ContentTemplate from '@/components/ContentTemplate'
 import NavTab from "@/components/NavTab"
 import Icon from '@/components/Icon.vue'
 
+import { Button,Cell,Calendar,Field,CellGroup,Overlay    } from 'vant';
+
+
+Vue.use(Button );
+Vue.use(Calendar );
+Vue.use(Cell );Vue.use(CellGroup );Vue.use(Overlay );
+Vue.use(Field );
+
 Vue.config.productionTip = false
 Vue.component('ContentTemplate', ContentTemplate)
 Vue.component('NavTab', NavTab)

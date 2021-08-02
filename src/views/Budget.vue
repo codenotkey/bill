@@ -1,39 +1,49 @@
 <template>
-  <div class="content" v-bind:style="{background:currentTheme.bgColor[currentThemeIndex]}">
-    <div class="title">
-      <router-link to="/">
-        <icon name="返回" class="icon"></icon>
-      </router-link>
-      <h1>我的预算</h1>
-      <span>2021年7月10日-8月10日</span>
-      <span>今天：7月20日</span>
-    </div>
-    <div class="picData">
-      <div id="liquidfill-chart" style="width:100%; height:350px;background: transparent"></div>
-    </div>
-    <div class="budget">
-      <div>
-        <span>总预算</span>
-        8500.00
+  <div class="parent">
+    <div class="content" v-bind:style="{background:currentTheme.bgColor[currentThemeIndex]}">
+      <div class="title">
+        <router-link to="/">
+          <icon name="返回" class="icon"></icon>
+        </router-link>
+        <h1>我的预算</h1>
+        <span>2021年{{this.$store.state.budgetData.sTime}}-{{this.$store.state.budgetData.eTime}}</span>
+        <span>今天：{{this.now}}</span>
       </div>
-      <span>&nbsp;</span>
-      <div>
-        <span>剩余预算</span>
-        6074.00
+      <div class="picData">
+        <div id="liquidfill-chart" style="width:100%; height:350px;background: transparent"></div>
       </div>
+      <div class="budget">
+        <div>
+          <span>总预算</span>
+          {{ this.$store.state.budgetData.totalMoney }}
+        </div>
+        <span>&nbsp;</span>
+        <div>
+          <span>剩余预算</span>
+          {{ this.$store.state.budgetData.remainMoney }}
+        </div>
+      </div>
+      <button v-bind:style="{color:currentTheme.buttonColor[currentThemeIndex]}" @click="showOverlay = true">更改我的预算</button>
+      <van-overlay :show="showOverlay" @click="showOverlay = false">
+        <div class="wrapper" @click.stop>
+          <test></test>
+        </div>
+      </van-overlay>
     </div>
-    <button v-bind:style="{color:currentTheme.buttonColor[currentThemeIndex]}">更改我的预算</button>
   </div>
 </template>
 
 <script>
+import Test from "@/views/test";
 let echarts = require('echarts')
 import "echarts-liquidfill";
+import dayjs from "dayjs";
 
 // let a
 // let per
 export default {
   name: 'Statistics',
+  components: {Test},
   data() {
     return {
       charts: '',
@@ -43,14 +53,17 @@ export default {
         buttonColor: ['#65a7a2', '#f3ae87', '#ef7371'],
         bgColor: ['repeating-linear-gradient(#4ea28d,#72a9ac)', 'repeating-linear-gradient(#e9b586,#f4a275)', 'repeating-linear-gradient(#e88b84,#f47676)'],
         chartData: []
-      }
+      },
+      showAlt:false,
+      showOverlay: false,
+      now:''
     }
   },
-  beforeCreate() {
-    // alterTheme(per)
-  },
   mounted() {
-    this.per = this.balance(8500, 500)
+    this.now = dayjs().format('M月D日')
+    this.$store.commit('fetchBudget')
+    // console.log(this.$store.state.budgetData.totalMoney);
+    this.per = this.balance(parseFloat(this.$store.state.budgetData.totalMoney), parseFloat(this.$store.state.budgetData.remainMoney))
     this.currentTheme.chartData = [
       [ {value: this.per, itemStyle: {normal: {color: '#749fa3'}}},
         {value: this.per-0.1, itemStyle: {normal: {color: '#72a9ad'}}},
@@ -67,9 +80,6 @@ export default {
     ]
     this.alterTheme(this.per)
     this.myDraw('liquidfill-chart')
-  },
-  computed:{
-
   },
   methods: {
     balance(allMoney, remainMoney) {
@@ -106,6 +116,9 @@ export default {
         }],
       };
       this.charts.setOption(option);
+    },
+    altBudget(){
+      this.showAlt =!this.showAlt
     }
   }
 }
@@ -117,8 +130,12 @@ export default {
 h1 {
   font-weight: normal;
 }
-
+.parent{
+  position: relative;
+}
 .content {
+  position: relative;
+  //z-index: -1;
   height: 100vh;
   display: flex;
   justify-content: flex-start;
@@ -173,7 +190,6 @@ h1 {
       width: 1px;
       opacity: 60%;
     }
-
     & > div > span {
       display: block;
       color: white;
@@ -181,7 +197,6 @@ h1 {
       font-size: 1rem;
     }
   }
-
   button {
     @extend %cardStyle;
     font-size: 1.5rem;
@@ -191,5 +206,13 @@ h1 {
     margin-top: 5vh;
 
   }
+  .wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 30%;
+  }
 }
+
 </style>
