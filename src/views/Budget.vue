@@ -6,7 +6,7 @@
           <icon name="返回" class="icon"></icon>
         </router-link>
         <h1>我的预算</h1>
-        <span>2021年{{this.$store.state.budgetData.sTime}}-{{this.$store.state.budgetData.eTime}}</span>
+        <span>{{this.$store.state.budgetData.sTime}}至{{this.$store.state.budgetData.eTime}}</span>
         <span>今天：{{this.now}}</span>
       </div>
       <div class="picData">
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import Test from "@/views/test";
+import Test from "@/components/AltBudget";
 let echarts = require('echarts')
 import "echarts-liquidfill";
 import dayjs from "dayjs";
@@ -61,7 +61,7 @@ export default {
   },
   mounted() {
     this.now = dayjs().format('M月D日')
-    this.$store.commit('fetchBudget')
+    // this.$store.commit('fetchBudget')
     // console.log(this.$store.state.budgetData.totalMoney);
     this.per = this.balance(parseFloat(this.$store.state.budgetData.totalMoney), parseFloat(this.$store.state.budgetData.remainMoney))
     this.currentTheme.chartData = [

@@ -10,23 +10,30 @@ import Labels from '@/views/Labels'
 // @ts-ignore
 import Notfound from '@/views/Notfound'
 // @ts-ignore
-import Test from '@/views/test'
+import Test from '@/components/AltBudget.vue'
+
+// @ts-ignore
+import Statistics from '@/views/Statistics'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     component: Home
+  },
+  {
+    path: '/',
+    redirect: '/home'
   },
   {
     path: '/money',
     component: Money
   },
-  {
-    path: '/labels',
-    component: Labels
-  },
+  // {
+  //   path: '/labels',
+  //   component: Labels
+  // },
   {
     path: '/budget',
     component: Budget
@@ -34,6 +41,10 @@ const routes = [
   {
     path:'/test',
     component: Test
+  },
+  {
+    path:'/statistics',
+    component: Statistics
   },
   {
     path: '*',

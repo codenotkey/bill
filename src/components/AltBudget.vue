@@ -2,7 +2,7 @@
   <div class="altBud">
     <van-field v-model="value" label="预算" placeholder="输入预算" class="input"/>
     <van-cell title="选择日期区间" :value="this.date" @click="show = true"  class="input" />
-    <van-calendar v-model="show" type="range" @confirm="onConfirm" color="#3247d3" :style="{ height: '500px' }"   />
+    <van-calendar v-model="show" :min-date="minDate" type="range" @confirm="onConfirm" color="#3247d3" :style="{ height: '500px' }"   />
     <button class="btn" @click="sendBudget" >确认提交</button>
   </div>
 </template>
@@ -11,6 +11,7 @@
 import 'vant/lib/button/style';
 import 'vant/lib/calendar/style';
 import 'vant/lib/cell/style';
+import dayjs from "dayjs";
 export default {
   name: 'test',
   data() {
@@ -20,7 +21,8 @@ export default {
       show: false,
       value: '',
       showAlt:false,
-      start:''
+      start:'',
+      minDate: new Date(2021, 7, 1),
     };
   },
   methods: {
@@ -30,10 +32,10 @@ export default {
     onConfirm(date) {
       const [start, end] = date;
       this.show = false;
-      this.start = this.formatDate(start)
-      this.end = this.formatDate(end)
+      this.start = start
+      this.end = end
       this.date = `${this.formatDate(start)} 至 ${this.formatDate(end)}`;
-      // console.log(this.date);
+      // console.log(this.start);
     },
     sendBudget(){
       if(this.value === '' ){
@@ -43,8 +45,8 @@ export default {
       }else {
         this.show = false;
         let budgetData = {
-          sTime:this.start,
-          eTime:this.end,
+          sTime:dayjs(this.start).format('YYYY-MM-DD'),
+          eTime:dayjs(this.end).format('YYYY-MM-DD'),
           totalMoney:this.value,
           remainMoney:this.value
         }

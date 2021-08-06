@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <router-view/>
-<!--    <NavTab class="nav_tab"></NavTab>-->
+    <NavTab class="nav_tab"></NavTab>
   </div>
 </template>
+
+
 
 <style lang="scss">
 @import 'assets/fonts/font.css';

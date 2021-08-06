@@ -9,15 +9,15 @@
         <icon name="速度"></icon>
       </div>
       <div class="bugDataContent">
-        <router-link to="labels">我的预算></router-link>
+        <router-link to="budget">我的预算></router-link>
         <div class="bugData">
           <div>
             <h5>本月预算</h5>
-            8500
+            {{ this.$store.state.budgetData.totalMoney }}
           </div>
           <div>
             <h5>剩余预算</h5>
-            5925.40
+            {{ this.$store.state.budgetData.remainMoney }}
           </div>
         </div>
       </div>
@@ -61,7 +61,6 @@ export default class Money extends Vue {
       let newList = clone(this.recordList).sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
       type Result = { title: string, total?: number, items: RecordItem[] }[]
       const result: Result = [{title: dayjs(newList[0].createdAt).format('MM-DD'), items: [newList[0]]}];
-      console.log(newList);
       for(let i = 1 ; i<newList.length; i++){
         const temp = newList[i]
         const last = result[result.length-1]
@@ -71,7 +70,6 @@ export default class Money extends Vue {
           result.push({title: dayjs(temp.createdAt).format('MM-DD'), items: [temp]})
         }
       }
-      console.log(result);
       result.map(group =>{
         group.total = group.items.reduce((sum, item) => {
           return sum + parseFloat(item.amount);
@@ -87,8 +85,6 @@ export default class Money extends Vue {
     }
     beautify(string:string){
       const now = dayjs().format('MM-DD')
-      console.log('day is '+ string);
-      console.log('now is' + now);
       if(string === now) {
         return '今天'
       }
@@ -109,7 +105,7 @@ export default class Money extends Vue {
 <style lang="scss" scoped>
 @import "@/assets/style/myscss.scss";
 .home {
-  background: #f1f1f5;
+  background: #f9fafb;
   display: flex;
   flex-direction: column;
   padding: 5px;

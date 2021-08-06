@@ -1,12 +1,12 @@
 <template>
     <nav>
-      <router-link to="/labels" class="item" active-class="selected">
+      <router-link to="/home" class="item" active-class="selected">
         <Icon name="记账"/>
       </router-link>
 
-      <router-link to="/money" class="item"  active-class="selected">
-        <Icon name="统计"/>
-      </router-link>
+<!--      <router-link to="/money" class="item"  active-class="selected">-->
+<!--        <Icon name="统计"/>-->
+<!--      </router-link>-->
 
       <router-link to="/money" class="item"  active-class="selected">
         <button class="addBill">+</button>
@@ -16,9 +16,9 @@
         <Icon name="趋势"/>
       </router-link>
 
-      <router-link to="/labels" class="item" active-class="selected">
-        <Icon name="个人"/>
-      </router-link>
+<!--      <router-link to="/labels" class="item" active-class="selected">-->
+<!--        <Icon name="个人"/>-->
+<!--      </router-link>-->
     </nav>
 </template>
 
@@ -33,12 +33,15 @@ export default {
 <style lang="scss" scoped>
 @import "~@/assets/style/myscss.scss";
   nav{
+
     //@extend%cardStyle;
+    background: #ffffff;
     border: none;
     display: flex;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
     font-size: 20px;
     border-radius: 12px;
+    justify-content: space-around;
     > .item{
       padding: 2px 0;
       display: flex;

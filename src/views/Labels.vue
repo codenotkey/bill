@@ -1,7 +1,7 @@
 <template>
     <div>
 <!--      <optionAlter :typeList=tags  fieldName="标签名" font-color="#fff"></optionAlter>-->
-      <Statistics my-index="1"></Statistics>
+<!--      <Statistics my-index="1"></Statistics>-->
     </div>
 </template>
 
