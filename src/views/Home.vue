@@ -5,11 +5,8 @@
       <h1>6397.10</h1>
     </div>
     <div class="budget">
-      <div class="circleData">
-        <icon name="速度"></icon>
-      </div>
       <div class="bugDataContent">
-        <router-link to="budget">我的预算></router-link>
+        <router-link to="budget">我的预算▶</router-link>
         <div class="bugData">
           <div>
             <h5>本月预算</h5>
@@ -20,6 +17,9 @@
             {{ this.$store.state.budgetData.remainMoney }}
           </div>
         </div>
+      </div>
+      <div class="circleData" >
+        <water-ball :per="this.per"  style="width:160px; height:160px;background: transparent;"></water-ball>
       </div>
     </div>
     <div class="day"  v-for="(group,index) in groupList" :key="index">
@@ -54,8 +54,12 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import clone from "@/lib/clone";
 import dayjs from "dayjs";
+import * as echarts from 'echarts';
+import WaterBall from "@/components/waterBall.vue";
 
-@Component
+@Component({
+  components: {WaterBall}
+})
 export default class Money extends Vue {
     get groupList(){
       let newList = clone(this.recordList).sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
@@ -92,11 +96,11 @@ export default class Money extends Vue {
         return
       }
     }
-    beforeCreate(){
-      this.$store.commit('fetchRecords')
-    }
-    mounted(){
+    per:0
+   created(){
       this.groupList
+      this.per= Math.floor((parseFloat(this.$store.state.budgetData.remainMoney)/parseFloat(this.$store.state.budgetData.totalMoney)) * 100) / 100;
+      // console.log(this.per);
     }
 }
 
@@ -121,26 +125,35 @@ export default class Money extends Vue {
   }
   .budget{
     margin:10px 5px;
-    background: #65a7a2;
+    background: repeating-linear-gradient(#4ea28d,#72a9ac);
     border-radius: 20px;
     min-height: 13vh;
     padding: 10px 20px;
     display: flex;
+    position: relative;
     .icon{
       height: 65px;
       width: 65px;
       color: white;
     }
     .circleData{
-      margin-right: 20px;
+      margin-left: -50px;
+      margin-top: -43px;
+      float: right;
+      right: 0;
+      position: absolute;
     }
     .bugDataContent{
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      a{
+        font-size: 1.2rem;
+        color: white;
+      }
       span{
         color: white;
-        font-size: 1rem;
+        font-size: 1.1rem;
         font-family: 'FZYH-510M', serif;
         letter-spacing:0.5px
       }

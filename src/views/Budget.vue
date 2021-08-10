@@ -1,6 +1,6 @@
 <template>
-  <div class="parent">
-    <div class="content" v-bind:style="{background:currentTheme.bgColor[currentThemeIndex]}">
+  <div class="parent" v-bind:style="{background:currentTheme.bgColor[currentThemeIndex]}">
+    <div class="content" >
       <div class="title">
         <router-link to="/">
           <icon name="返回" class="icon"></icon>
@@ -10,14 +10,13 @@
         <span>今天：{{this.now}}</span>
       </div>
       <div class="picData">
-        <div id="liquidfill-chart" style="width:100%; height:350px;background: transparent"></div>
+        <water-ball :per="this.per" style="width:340px; height:340px;"></water-ball>
       </div>
       <div class="budget">
         <div>
           <span>总预算</span>
           {{ this.$store.state.budgetData.totalMoney }}
         </div>
-        <span>&nbsp;</span>
         <div>
           <span>剩余预算</span>
           {{ this.$store.state.budgetData.remainMoney }}
@@ -38,12 +37,12 @@ import Test from "@/components/AltBudget";
 let echarts = require('echarts')
 import "echarts-liquidfill";
 import dayjs from "dayjs";
+import WaterBall from "@/components/waterBall";
 
-// let a
-// let per
+
 export default {
   name: 'Statistics',
-  components: {Test},
+  components: {WaterBall, Test},
   data() {
     return {
       charts: '',
@@ -61,9 +60,7 @@ export default {
   },
   mounted() {
     this.now = dayjs().format('M月D日')
-    // this.$store.commit('fetchBudget')
-    // console.log(this.$store.state.budgetData.totalMoney);
-    this.per = this.balance(parseFloat(this.$store.state.budgetData.totalMoney), parseFloat(this.$store.state.budgetData.remainMoney))
+    this.per = this.balance()
     this.currentTheme.chartData = [
       [ {value: this.per, itemStyle: {normal: {color: '#749fa3'}}},
         {value: this.per-0.1, itemStyle: {normal: {color: '#72a9ad'}}},
@@ -79,11 +76,12 @@ export default {
         {value: this.per - 0.1, itemStyle: {normal: {color: '#e88b84'}}} ],
     ]
     this.alterTheme(this.per)
-    this.myDraw('liquidfill-chart')
+    this.myDraw()
+    this.$store.commit('fetchBudget')
   },
   methods: {
-    balance(allMoney, remainMoney) {
-      return Math.floor((remainMoney / allMoney) * 100) / 100;
+    balance() {
+      return Math.floor((parseFloat(this.$store.state.budgetData.remainMoney)/parseFloat(this.$store.state.budgetData.totalMoney)) * 100) / 100;
     },
     alterTheme(value) {
       if (value > 0.5) {
@@ -94,7 +92,7 @@ export default {
         this.currentThemeIndex = 2
       }
     },
-    myDraw(id) {
+    myDraw() {
       this.charts = echarts.init(document.getElementById('liquidfill-chart'), {}, {renderer: 'svg'})
       let option = {
         series: [{
@@ -132,34 +130,31 @@ h1 {
 }
 .parent{
   position: relative;
+  padding: 20px 20px 0;
 }
 .content {
+  //height: 100vh;
   position: relative;
-  //z-index: -1;
-  height: 100vh;
   display: flex;
   justify-content: flex-start;
-  padding: 20px;
   flex-direction: column;
   //background: repeating-linear-gradient(#4ea28d,#72a9ac);
   //background: repeating-linear-gradient(#e9b586,#f4a275);
-  background: repeating-linear-gradient(#e88b84, #f47676);
+  //background: repeating-linear-gradient(#e88b84, #f47676);
+  //background: transparent;
 
   .title {
     align-self: flex-start;
     color: white;
     font-weight: lighter;
-
     h1 {
       padding-bottom: 0.2em;
     }
-
     span {
       color: #ece3e3;
       display: block;
-      margin-bottom: 6px;
+      margin-top: 6px;
     }
-
     a {
       display: block;
       margin-bottom: 20px;
@@ -167,22 +162,20 @@ h1 {
   }
 
   .picData {
-    align-self: center;
     width: 400px;
     height: 400px;
-
+    overflow: hidden;
   }
 
   .budget {
     display: flex;
     justify-content: space-around;
     align-items: center;
-
+    margin-top: -50px;
     & > div {
       font-size: 1.7rem;
       color: white;
     }
-
     & > span {
       display: inline-block;
       border: 2px solid white;
@@ -204,6 +197,7 @@ h1 {
     //color:#f3ae87;#65a7a2;#ef7371;
     color: #ef7371;
     margin-top: 5vh;
+    margin-bottom: 0;
 
   }
   .wrapper{

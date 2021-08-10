@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="title">支出发布</div>
-    <div id="main"  style="width:100%; height:260px; z-index: 0"></div>
+    <div id="main"  style="width:100%; min-height:240px; z-index: 0"></div>
     <div class="monthData">
       <div class="data">
         <span>支出笔数</span>
@@ -15,7 +15,7 @@
       <div class='myBorder'></div>
       <div class="data">
         <span>日均支出</span>
-        ￥{{ parseInt(this.$store.state.totalSpend/this.dayDiff) }}
+        ￥{{ parseInt(this.$store.state.totalSpend/this.dayDiff)}}
       </div>
     </div>
     <div>

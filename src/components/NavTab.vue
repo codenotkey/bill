@@ -33,7 +33,6 @@ export default {
 <style lang="scss" scoped>
 @import "~@/assets/style/myscss.scss";
   nav{
-
     //@extend%cardStyle;
     background: #ffffff;
     border: none;

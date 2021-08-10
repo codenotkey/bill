@@ -15,6 +15,9 @@ import Test from '@/components/AltBudget.vue'
 // @ts-ignore
 import Statistics from '@/views/Statistics'
 
+// @ts-ignore
+import About from '@/views/About'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,13 +41,17 @@ const routes = [
     path: '/budget',
     component: Budget
   },
-  {
-    path:'/test',
-    component: Test
-  },
+  // {
+  //   path:'/test',
+  //   component: Test
+  // },
   {
     path:'/statistics',
     component: Statistics
+  },
+  {
+    path:'/test',
+    component: About
   },
   {
     path: '*',
