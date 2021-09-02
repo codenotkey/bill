@@ -29,6 +29,10 @@ const store = new Vuex.Store({
   mutations: {
     fetchRecords(state){
       state.recordList =JSON.parse(window.localStorage.getItem('recordList') || '[]')
+      if(state.recordList.length===0){
+        let temp = {spendOrIncome: "spend", type: "饮料", notes: " ", amount: "88", createdAt: "2021-09-02T16:22"}
+        state.recordList.push(clone(temp))
+      }
     },
     createRecord(state,record){
       state.recordList.push(clone(record))
@@ -44,12 +48,28 @@ const store = new Vuex.Store({
 
     },
     fetchBudget(state){
-      state.budgetData =JSON.parse(window.localStorage.getItem('budgetData') || '{}')
+      state.budgetData =JSON.parse(window.localStorage.getItem('budgetData') || '{"sTime":"2021-09-01","eTime":"2021-09-30","totalMoney":"5000","remainMoney":4912}')
       // console.log(state.budgetData.totalMoney);
     },
     saveBudget(state,value){
       state.budgetData = value
       window.localStorage.setItem('budgetData',JSON.stringify(state.budgetData))
+    },
+    currentData(state){
+      //获取当月消费记录
+      state.monthResult = store.state.recordList.filter(r =>dayjs(r.createdAt).isAfter(dayjs(store.state.budgetData.sTime)))
+      state.totalSpend=0
+      //获取当月消费总额
+      for (let i=0 ;i<store.state.monthResult.length; i++){
+        state.totalSpend +=parseFloat(store.state.monthResult[i].amount)
+      }
+      console.log('spend')
+      console.log(state.totalSpend);
+      //计算当月余额并存入
+
+      // @ts-ignore
+      state.budgetData.remainMoney=parseFloat(store.state.budgetData.totalMoney)-store.state.totalSpend
+      store.commit('saveBudget',store.state.budgetData)
     }
   },
 
@@ -61,21 +81,10 @@ const store = new Vuex.Store({
 
 store.commit('fetchBudget')
 store.commit('fetchRecords')
-// store.state.budgetData.totalMoney
-// store.state.budgetData.sTime
-// store.state.budgetData.eTime
+store.commit('currentData')
 
-//获取当月消费记录
-store.state.monthResult = store.state.recordList.filter(r =>dayjs(r.createdAt).isAfter(dayjs(store.state.budgetData.sTime)))
-//获取当月消费总额
-for (let i=0 ;i<store.state.monthResult.length; i++){
-  store.state.totalSpend +=parseFloat(store.state.monthResult[i].amount)
-}
 
-//计算当月余额并存入
-// @ts-ignore
-store.state.budgetData.remainMoney=parseFloat(store.state.budgetData.totalMoney)-store.state.totalSpend
-store.commit('saveBudget',store.state.budgetData)
+
 
 
 
@@ -109,9 +118,6 @@ for (let i = 0; i < arr.length; i++) {
 
 // @ts-ignore
 store.state.typeTotalList = arr1
-
-
-
 
 
 export  default store

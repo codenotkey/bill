@@ -15,7 +15,7 @@
       <div class='myBorder'></div>
       <div class="data">
         <span>日均支出</span>
-        ￥{{ parseInt(this.$store.state.totalSpend/this.dayDiff)}}
+        ￥{{ parseInt(this.$store.state.totalSpend/30)}}
       </div>
     </div>
     <div>

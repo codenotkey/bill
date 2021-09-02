@@ -37,9 +37,10 @@ export default {
     background: #ffffff;
     border: none;
     display: flex;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+    //box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
+    //box-shadow: 0px 7px 12px 0px rgba(152, 152, 152, 12);
     font-size: 20px;
-    border-radius: 12px;
+    border-radius: 12px 12px 0 0;
     justify-content: space-around;
     > .item{
       padding: 2px 0;

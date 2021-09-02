@@ -1,6 +1,6 @@
 <template>
     <ContentTemplate >
-      <TallyBlock :value.sync="record.amount"   @update:value="getBillData"></TallyBlock>
+      <TallyBlock :value.sync="record.amount" ></TallyBlock>
       <InfoBlock @update:value="submitSpendingData" @submit="submitSpendingData" ></InfoBlock>
     </ContentTemplate>
 </template>
@@ -40,9 +40,7 @@ export default class Money extends Vue{
   onRecordListChange() {
 
   }
-  getBillData(value:string){
 
-  }
   submitSpendingData(value: info){
     this.record.type = value.type
     this.record.notes = value.note

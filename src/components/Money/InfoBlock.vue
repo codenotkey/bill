@@ -62,7 +62,7 @@ export default class InfoBlock extends Vue {
   selectType(item:string) {
     this.info.type = item
     this.selected=!this.selected
-    console.log(item);
+    // console.log(item);
   }
   show(){
     if(this.initType.resentCardHeight ==='57px'){
@@ -86,9 +86,6 @@ export default class InfoBlock extends Vue {
     }
     else{
       this.$emit('submit', this.info)
-      // this.info.date = ''
-      // this.info.type = ''
-      // this.info.note = ''
       this.initType.typeIndex = -1
     }
 

@@ -79,11 +79,7 @@ export default class TallyBlock extends Vue {
   clear(){
     this.output = ''
   }
-  // submitData(){
-  //   console.log(this.output)
-  //   this.$emit('billData',this.output)
-  //   // this.output=''
-  // }
+
   @Watch('output')
   onValueChanged(value:string){
     this.$emit('update:value', value);

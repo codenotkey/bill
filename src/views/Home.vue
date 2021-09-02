@@ -2,7 +2,7 @@
   <div class="home">
     <div class="expense">
       本月支出（元）
-      <h1>6397.10</h1>
+      <h1>{{ this.$store.state.totalSpend }}</h1>
     </div>
     <div class="budget">
       <div class="bugDataContent">
@@ -39,7 +39,7 @@
             <icon :name="item.type"></icon>
             <div>
               <span>{{ item.type }}</span>
-              <span>{{ itemDate(item.createdAt)}}{{item.notes}}</span>
+              <span>{{ itemDate(item.createdAt)}} {{item.notes}}</span>
             </div>
           </div>
           <span>{{ item.amount }}</span>
@@ -62,7 +62,7 @@ import WaterBall from "@/components/waterBall.vue";
 })
 export default class Money extends Vue {
     get groupList(){
-      let newList = clone(this.recordList).sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
+      let newList = clone(this.recordList).sort((a:any,b:any) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
       type Result = { title: string, total?: number, items: RecordItem[] }[]
       const result: Result = [{title: dayjs(newList[0].createdAt).format('MM-DD'), items: [newList[0]]}];
       for(let i = 1 ; i<newList.length; i++){
@@ -96,11 +96,12 @@ export default class Money extends Vue {
         return
       }
     }
-    per:0
+    per: 0 | undefined
    created(){
       this.groupList
+      // @ts-ignore
       this.per= Math.floor((parseFloat(this.$store.state.budgetData.remainMoney)/parseFloat(this.$store.state.budgetData.totalMoney)) * 100) / 100;
-      // console.log(this.per);
+      this.$store.commit('currentData')
     }
 }
 

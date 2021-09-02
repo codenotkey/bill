@@ -25,7 +25,7 @@
       <button v-bind:style="{color:currentTheme.buttonColor[currentThemeIndex]}" @click="showOverlay = true">更改我的预算</button>
       <van-overlay :show="showOverlay" @click="showOverlay = false">
         <div class="wrapper" @click.stop>
-          <test></test>
+          <AltBudget :showOverlay.sync="showOverlay"></AltBudget>
         </div>
       </van-overlay>
     </div>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import Test from "@/components/AltBudget";
+import AltBudget from "@/components/AltBudget";
 let echarts = require('echarts')
 import "echarts-liquidfill";
 import dayjs from "dayjs";
@@ -42,7 +42,7 @@ import WaterBall from "@/components/waterBall";
 
 export default {
   name: 'Statistics',
-  components: {WaterBall, Test},
+  components: {WaterBall, AltBudget},
   data() {
     return {
       charts: '',

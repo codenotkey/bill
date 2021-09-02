@@ -2,8 +2,8 @@
   <div class="altBud">
     <van-field v-model="value" label="预算" placeholder="输入预算" class="input"/>
     <van-cell title="选择日期区间" :value="this.date" @click="show = true"  class="input" />
-    <van-calendar v-model="show" :min-date="minDate" type="range" @confirm="onConfirm" color="#3247d3" :style="{ height: '500px' }"   />
-    <button class="btn" @click="sendBudget" >确认提交</button>
+    <van-calendar first-day-of-week="1" v-model="show"  type="range" @confirm="onConfirm" color="#3247d3" :style="{ height: '500px' }"   />
+    <button class="btn" @click="sendBudget">确认提交</button>
   </div>
 </template>
 
@@ -13,10 +13,10 @@ import 'vant/lib/calendar/style';
 import 'vant/lib/cell/style';
 import dayjs from "dayjs";
 export default {
-  name: 'test',
+  name: 'AltBudget',
+  props:['showOverlay'],
   data() {
     return {
-      showOverlay: false,
       date: '',
       show: false,
       value: '',
@@ -43,13 +43,14 @@ export default {
       }else if(this.date ===''){
         window.alert('没有输入时间')
       }else {
-        this.show = false;
+        // this.show = false;
         let budgetData = {
           sTime:dayjs(this.start).format('YYYY-MM-DD'),
           eTime:dayjs(this.end).format('YYYY-MM-DD'),
           totalMoney:this.value,
           remainMoney:this.value
         }
+        this.$emit('update:showOverlay',false)
         this.$store.commit('saveBudget',budgetData)
         window.alert('提交成功')
       }
